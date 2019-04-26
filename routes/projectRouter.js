@@ -32,6 +32,18 @@ router.get("/:id", (req, res) => {
     });
 });
 
+router.get("/:id/actions", (req, res) => {
+  const id = req.params.id;
+
+  db.getProjectActions(id)
+    .then(project => {
+      res.json(project);
+    })
+    .catch(err => {
+      res.status(500).json({ error: "failed to retrieved actions" });
+    });
+});
+
 router.post("/", (req, res) => {
   const { name, description } = req.body;
   const newproject = { name, description };
