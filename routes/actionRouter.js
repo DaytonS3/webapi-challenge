@@ -47,4 +47,22 @@ router.post("/", (req, res) => {
       });
   }
 });
+
+router.delete("/:id", (req, res) => {
+  const actionId = req.params.id;
+  db.remove(actionId)
+    .then(action => {
+      if (action) {
+        res.json({ message: "deleted action" });
+      } else {
+        res.status(404).json({ error: "No action with that ID" });
+      }
+    })
+    .catch(err => {
+      res.status(500).json({
+        error: "There was an error getting the action from database"
+      });
+    });
+});
+
 module.exports = router;
