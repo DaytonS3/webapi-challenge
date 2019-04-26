@@ -65,4 +65,21 @@ router.delete("/:id", (req, res) => {
     });
 });
 
+router.put("/:id", (req, res) => {
+  const actionId = req.params.id;
+  const updateAction = req.body;
+  const { project_id, description, notes } = req.body;
+  if (!project_id || !description || !notes) {
+    res.status(400).json({ error: "provide all fields" });
+  } else {
+    db.update(actionId, updateAction)
+      .then(action => {
+        res.json(action);
+      })
+      .catch(err => {
+        res.status(500).json({ error: "Error updating action" });
+      });
+  }
+});
+
 module.exports = router;
