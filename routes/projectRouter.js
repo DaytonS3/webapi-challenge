@@ -37,7 +37,11 @@ router.get("/:id/actions", (req, res) => {
 
   db.getProjectActions(id)
     .then(project => {
-      res.json(project);
+      if (project) {
+        res.json(project);
+      } else {
+        res.status(404).json({ error: "No project with that ID" });
+      }
     })
     .catch(err => {
       res.status(500).json({ error: "failed to retrieved actions" });
